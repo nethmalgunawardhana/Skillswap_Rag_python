@@ -6,3 +6,6 @@ langchain-community
 sentence-transformers
 protobuf~=5.29.3
 langchain~=0.3.17
+python-dotenv
+pymongo
+certifi

@@ -1,0 +1,50 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env
+.venv/
+env/
+ENV/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
+
+# Logs and databases
+*.log
+*.sqlite3
+instance/
+*.db
+*.sqlite
+
+# Pytest cache
+.pytest_cache/
+
+# VSCode and JetBrains settings
+.vscode/
+.idea/
+
+# Flask-related
+instance/
+config.py
+
+# Cache files
+*.cache
+*.pyc
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Docker-related
+docker-compose.override.yml
+
+# Ignore system files
+.DS_Store
+Thumbs.db
