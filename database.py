@@ -8,12 +8,21 @@ import logging
 class MongoDB:
     def __init__(self):
         try:
-            # Use TLS/SSL certificate and connect to MongoDB Atlas
+            # Ensure MONGODB_URI is correctly formatted
+            if not MONGODB_URI.startswith('mongodb+srv://') and not MONGODB_URI.startswith('mongodb://'):
+                raise ValueError("Invalid MongoDB URI format. Must start with 'mongodb+srv://' or 'mongodb://'")
+
+            # Connect to MongoDB Atlas with proper configuration
             self.client = MongoClient(
                 MONGODB_URI,
                 tlsCAFile=certifi.where(),
-                serverSelectionTimeoutMS=5000  # 5 second timeout
+                serverSelectionTimeoutMS=5000,  # 5 second timeout
+                connectTimeoutMS=20000,  # 20 second connection timeout
+                socketTimeoutMS=20000,  # 20 second socket timeout
+                retryWrites=True,
+                w='majority'  # Write concern for better consistency
             )
+
             # Test the connection
             self.client.admin.command('ping')
             logging.info("Successfully connected to MongoDB Atlas")
@@ -23,9 +32,17 @@ class MongoDB:
 
         except ServerSelectionTimeoutError as e:
             logging.error(f"Failed to connect to MongoDB Atlas: {e}")
+            logging.error("Please check your network connection and MongoDB Atlas status")
             raise
         except OperationFailure as e:
             logging.error(f"Authentication failed: {e}")
+            logging.error("Please check your MongoDB Atlas username and password")
+            raise
+        except ValueError as e:
+            logging.error(f"Configuration error: {e}")
+            raise
+        except Exception as e:
+            logging.error(f"Unexpected error connecting to MongoDB: {e}")
             raise
 
     def get_initial_posts(self):
