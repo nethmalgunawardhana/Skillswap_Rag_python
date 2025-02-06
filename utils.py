@@ -1,6 +1,6 @@
 import google.generativeai as genai
 import chromadb
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from config import GEMINI_API_KEY, EMBEDDING_MODEL, GENERATIVE_MODEL, CHROMA_DB_PATH
 
 # Configure Google Generative AI
@@ -28,6 +28,9 @@ class ChromaDB:
             query_embeddings=[query_embedding],
             n_results=3
         )
+        # Handle empty results
+        context = results['documents'] if results and 'documents' in results and results['documents'] else [
+            "No similar posts found."]
 
         model = genai.GenerativeModel(GENERATIVE_MODEL)
         prompt = f"""
@@ -35,7 +38,7 @@ class ChromaDB:
         Is this post relevant to skill-sharing, where users offer or seek skills?
         - If YES, respond with: "Relevant"
         - If NO, respond with: "Not Relevant"
-        Context of past similar skill posts: {results['documents']}
+        Context of past similar skill posts: {context}
         """
 
         response = model.generate_content(prompt)

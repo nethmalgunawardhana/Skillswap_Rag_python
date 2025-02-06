@@ -3,7 +3,7 @@ from flask_cors import CORS
 from database import MongoDB
 from utils import ChromaDB
 import logging
-
+import os
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
