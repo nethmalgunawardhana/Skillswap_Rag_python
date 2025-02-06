@@ -6,7 +6,7 @@ load_dotenv()
 
 # Configuration variables
 GEMINI_API_KEY = os.getenv('GEMINI_API_KEY')
-MONGODB_URI = os.getenv('MONGODB_URI')
+MONGODB_URI = os.getenv("MONGODB_URI", None)
 DB_NAME = os.getenv('DB_NAME')
 COLLECTION_NAME = os.getenv('COLLECTION_NAME')
 
