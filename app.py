@@ -3,7 +3,7 @@ from flask_cors import CORS
 from database import MongoDB
 from utils import ChromaDB
 import logging
-
+import os
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -57,4 +57,4 @@ def cleanup(error):
         logging.error(f"Error during cleanup: {e}")
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
